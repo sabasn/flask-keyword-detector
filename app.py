@@ -2,8 +2,7 @@ from flask import Flask, render_template, request, send_file, url_for
 import os
 import fitz  # PyMuPDF for PDFs
 from docx import Document
-from docx.oxml import parse_xml
-from docx.oxml.ns import nsdecls
+import re
 
 app = Flask(__name__)
 
@@ -31,9 +30,6 @@ def highlight_text_in_pdf(pdf_path, output_path, keywords):
     doc.save(output_path)
     doc.close()
 
-from docx import Document
-import re
-
 def highlight_text_in_docx(docx_path, output_path, keywords):
     """Properly highlight trigger words in a Word document."""
     doc = Document(docx_path)
@@ -47,9 +43,6 @@ def highlight_text_in_docx(docx_path, output_path, keywords):
                         run.font.highlight_color = 2  # Apply yellow highlight
 
     doc.save(output_path)
-
-
-
 
 @app.route("/", methods=["GET", "POST"])
 def upload_file():
